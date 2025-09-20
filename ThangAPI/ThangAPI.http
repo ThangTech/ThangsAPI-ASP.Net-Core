@@ -1,0 +1,6 @@
+@ThangAPI_HostAddress = http://localhost:5093
+
+GET {{ThangAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
