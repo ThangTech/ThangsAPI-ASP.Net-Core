@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ThangAPI.Data;
+using ThangAPI.Mapping;
+using ThangAPI.Repositoty;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ThangDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ThangConnectionString")));
+builder.Services.AddScoped<IRegionRepository, SQLRegionRepositorycs>(); //Repository Pattern
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfile>()); // Add automapper
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
