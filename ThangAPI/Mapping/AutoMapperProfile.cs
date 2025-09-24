@@ -11,6 +11,10 @@ namespace ThangAPI.Mapping
             CreateMap<Region, RegionDTO>().ReverseMap();
             CreateMap<AddRegionDTO, Region>().ReverseMap();
             CreateMap<UpdateRegionDTO, Region>().ReverseMap();
+            CreateMap<AddWalkDTO, Walkcs>().ReverseMap();
+            CreateMap<Walkcs, WalkDTO>().ReverseMap();
+            CreateMap<Difficulty, DifficultyDTO>().ReverseMap();
+            CreateMap<UpdateWalkDTO, Walkcs>().ReverseMap();
         }
     }
 }

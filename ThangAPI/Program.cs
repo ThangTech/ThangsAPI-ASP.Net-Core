@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ThangDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ThangConnectionString")));
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepositorycs>(); //Repository Pattern
+builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>(); //Repository Pattern
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfile>()); // Add automapper
 
 var app = builder.Build();
