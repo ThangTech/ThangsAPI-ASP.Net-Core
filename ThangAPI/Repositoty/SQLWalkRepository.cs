@@ -32,10 +32,37 @@ namespace ThangAPI.Repositoty
 
         }
 
-        public async Task<List<Walkcs>> GetAllWalkAsync()
+        public async Task<List<Walkcs>> GetAllWalkAsync(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
         {
-            var walks = await thangDbContext.Walkcs.Include("Difficulty").Include("Region").ToListAsync(); // Navigation property
-            return walks;
+            var walks = thangDbContext.Walkcs.Include("Difficulty").Include("Region").AsQueryable();
+            //var walks = await thangDbContext.Walkcs.Include("Difficulty").Include("Region").ToListAsync(); // Navigation property
+            // Filtering: lọc dữ liệu
+            if(string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            {
+                if(filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                // StringComparison.OrdinalIgnoreCase hỗn hợp chữ kể cả hoa hay thường
+                // Viết nhiều else if để lọc theo cột
+                {
+                    walks = walks.Where(x => x.Name.Contains(filterQuery));
+                }
+            }
+            //Sorting
+            if(string.IsNullOrWhiteSpace(sortBy) == false)
+            {
+                if(sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.Name): walks.OrderByDescending(x => x.Name);
+                }
+                if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.LengthInKm): walks.OrderByDescending(x => x.LengthInKm);
+                }
+            }
+            //Pagination
+            var skipResult = (pageNumber - 1) * pageSize;
+
+            return await walks.Skip(skipResult).Take(pageSize).ToListAsync();
         }
 
         public async Task<Walkcs?> GetWalkIDAsync(Guid id)

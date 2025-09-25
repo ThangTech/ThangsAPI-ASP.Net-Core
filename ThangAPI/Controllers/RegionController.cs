@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ThangAPI.CustomActionFilters;
 using ThangAPI.Data;
 using ThangAPI.Models.Domain;
 using ThangAPI.Models.DTO;
@@ -95,6 +96,7 @@ namespace ThangAPI.Controllers
         }
         // POST
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddRegionDTO addRegionDTO)
         {
             // Chuyen du lieu tu DTO den Domain Models
@@ -104,25 +106,27 @@ namespace ThangAPI.Controllers
             //    Name = addRegionDTO.Name,
             //    RegionImageURL= addRegionDTO.RegionImageURL
             //};
-            var regionDomainModel = mapper.Map<Region>(addRegionDTO);
-            // Dung domain models de tao Region
-            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
+           
+                var regionDomainModel = mapper.Map<Region>(addRegionDTO);
+                // Dung domain models de tao Region
+                regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
 
-            // Chuyen domain models sang DTO 
-            //var regionDTO = new RegionDTO
-            //{
-            //    Id = regionDomainModel.Id,
-            //    Code = regionDomainModel.Code,
-            //    Name = regionDomainModel.Name,
-            //    RegionImageURL = regionDomainModel.RegionImageURL
-            //};
-            var regionDTO = mapper.Map<RegionDTO>(regionDomainModel);
-            return CreatedAtAction(nameof(GetByID), new {id = regionDTO.Id}, regionDTO);
+                // Chuyen domain models sang DTO 
+                //var regionDTO = new RegionDTO
+                //{
+                //    Id = regionDomainModel.Id,
+                //    Code = regionDomainModel.Code,
+                //    Name = regionDomainModel.Name,
+                //    RegionImageURL = regionDomainModel.RegionImageURL
+                //};
+                var regionDTO = mapper.Map<RegionDTO>(regionDomainModel);
+                return CreatedAtAction(nameof(GetByID), new { id = regionDTO.Id }, regionDTO);
+            
         }
         // Update
         [HttpPut]
         [Route("{id:Guid}")]
-
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
         {
             //chuyen du lieu tu DTO den model
@@ -131,24 +135,24 @@ namespace ThangAPI.Controllers
             //    Code = updateRegionDTO.Code,
             //    Name = updateRegionDTO.Name,
             //    RegionImageURL = updateRegionDTO.RegionImageURL
-            //};
-            var regionDomainModel = mapper.Map<Region>(updateRegionDTO);
-            // Kiem tra su ton tai cua Region
-            regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel);
-            if (regionDomainModel == null)
-            {
-                return NotFound();
-            }
-            // chuyen du lieu tu domain den DTO
-            //var regionDTO = new RegionDTO
-            //{
-            //    Id = regionDomainModel.Id,
-            //    Code = regionDomainModel.Code,
-            //    Name = regionDomainModel.Name,
-            //    RegionImageURL = regionDomainModel.RegionImageURL
-            //};
-            var regionDTO = mapper.Map<RegionDTO>(regionDomainModel);
-            return Ok(regionDTO);
+                //};
+                var regionDomainModel = mapper.Map<Region>(updateRegionDTO);
+                // Kiem tra su ton tai cua Region
+                regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel);
+                if (regionDomainModel == null)
+                {
+                    return NotFound();
+                }
+                // chuyen du lieu tu domain den DTO
+                //var regionDTO = new RegionDTO
+                //{
+                //    Id = regionDomainModel.Id,
+                //    Code = regionDomainModel.Code,
+                //    Name = regionDomainModel.Name,
+                //    RegionImageURL = regionDomainModel.RegionImageURL
+                //};
+                var regionDTO = mapper.Map<RegionDTO>(regionDomainModel);
+                return Ok(regionDTO);
         }
         // Delete
         [HttpDelete]
