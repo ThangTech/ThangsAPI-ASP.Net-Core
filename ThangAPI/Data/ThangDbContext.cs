@@ -5,7 +5,7 @@ namespace ThangAPI.Data
 {
     public class ThangDbContext:DbContext
     {
-        public ThangDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public ThangDbContext(DbContextOptions<ThangDbContext> dbContextOptions) : base(dbContextOptions)
         {
             
         }
