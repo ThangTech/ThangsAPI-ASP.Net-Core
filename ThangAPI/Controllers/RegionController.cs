@@ -14,7 +14,6 @@ namespace ThangAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class RegionController : ControllerBase
     {
         //private readonly ThangDbContext thangDbContext; //Depenjency
@@ -28,6 +27,7 @@ namespace ThangAPI.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
+        [Authorize(Roles = "Reader")]
         //public IActionResult GetAll()
         //{
         //    var regions = new List<Region>
@@ -75,6 +75,7 @@ namespace ThangAPI.Controllers
         // Lay region theo id
         [HttpGet]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetByID([FromRoute] Guid id)
         {
             //var region = thangDbContext.Regions.Find(id);
@@ -99,6 +100,7 @@ namespace ThangAPI.Controllers
         // POST
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Create([FromBody] AddRegionDTO addRegionDTO)
         {
             // Chuyen du lieu tu DTO den Domain Models
@@ -129,6 +131,7 @@ namespace ThangAPI.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
         {
             //chuyen du lieu tu DTO den model
@@ -159,6 +162,7 @@ namespace ThangAPI.Controllers
         // Delete
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer, Reader")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var regionDomainModel = await regionRepository.DeleteAsync(id);
