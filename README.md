@@ -443,7 +443,7 @@ Sử dụng `Authorize` để tạo xác thực
     }
 
 ```
-## Tạo `AuthController` để xử `Login` và `Register`
+## Tạo `AuthController` để xử lý `Login` và `Register`
 Thêm LoginDTO và RegisterDTO
 ```csharp
 public class RegisterDTO
@@ -481,7 +481,7 @@ signingCredentials: credentials
 ```
 ## Thêm Authorize và trong Swagger
 Cấu hình chi tiết trong file `Progam.cs`
-Và thêm vào trong Controller
+## Thêm role vào trong Controller
 ```csharp
 [Authorize(Roles = "Writer, Reader")]
 // Có thể thêm nhiều role trong đây
