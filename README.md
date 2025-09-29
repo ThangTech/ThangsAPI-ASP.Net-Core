@@ -1,4 +1,4 @@
-# 1. 🎓 Student API – API đầu tiên bằng ASP.NET Core
+# 1.Student API – API đầu tiên bằng ASP.NET Core
 
 Đây là chương trình API đầu tiên của tôi, sử dụng **C# với ASP.NET Core Web API**. Mục tiêu của API này là cung cấp danh sách sinh viên thông qua một endpoint đơn giản.
 ## Mô tả
@@ -332,6 +332,159 @@ namespace ThangAPI.CustomActionFilters
         }
     }
 }
+```
+# 4.`Authencation` và `Authorization`
+## Muốn tích hợp được xác thực và ủy quyền trong .NetCore trước hết ta phải add các gói nuget package cần thiết
+```csharp
+Microsoft.AspNetCore.Authentication.JwtBearer
+//Tích hợp xác thực, dựa trên JWT trong asp.net core
+Microsoft.IdentityModel.Tokens
+//Thư viện cốt lõi để làm việc với các token bảo mật như JWT, cung cấp các công cụ để tạo, xác thực, mã hóa, giải mã token.
+System.IdentityModel.Tokens.Jwt
+//Đây là thư viện để tạo và xử lý JWT một cách trực tiếp, giúp phân tích (parse), tạo, ký và xác thực JWT.
+Microsoft.AspNetCore.Identity.EntityFrameworkCore
+//Tích hợp với Entity Framework Core để lưu trữ và quản lý người dùng (user), vai trò (role) trong cơ sở dữ liệu.
+```
+## Tạo một `ConnectionString` mới để làm việc với `Authencation`
+```csharp
+"ThangAuthConnectionString": "YourServer; Database=ThangAuthAPI; Trusted_Connection=True; TrustServerCertificate=True"
+```
+## Cấu hình Jwt
+```csharp
+"Jwt": {
+    "Key": "YourKey",
+    "Issuer": "https://.........../",
+    "Audience": "https://:........./"
+}
+```
+## Cấu hình `Jwt Authencation`
+```csharp
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+    option.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    });
+```
+Và nhớ thêm vào `Progam.cs`
+```csharp
+app.Authentication();
+```
+## Cấu hình Identity 
+Đây là nơi cấu hình hệ thống quản lý tài khoản (User, Role, DB).
+```csharp
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Thang")
+    .AddEntityFrameworkStores<ThangAuthDbContext>()
+    .AddDefaultTokenProviders();
+```
+Cấu hình các tùy chọn của identity
+```csharp
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options...
+});
+```
+## `Lưu ý `
+Khi trong project có nhiều hơn 1 database thì phải sử dụng chính xác database đó.
+```csharp
+public class ThangDbContext:DbContext
+    {
+        public ThangDbContext(DbContextOptions<ThangDbContext> dbContextOptions) : base(dbContextOptions)
+        {
+            //Thêm <ThangDbContext>
+        }
+
+    }
+```
+Cấu hình trong AuthDbContext
+```csharp
+            var readerRoleId = "a75d0326-cfd7-4d23-8222-8fcd858da85e";
+            var writerRoleId = "d34bddcf-6fd3-44b1-9cab-8be99f7f2f28";
+
+            var roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Id = readerRoleId,
+                    ConcurrencyStamp = readerRoleId,
+                    Name = "Reader",
+                    NormalizedName = "Reader".ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = writerRoleId,
+                    ConcurrencyStamp = writerRoleId,
+                    Name = "Writer",
+                    NormalizedName = "Writer".ToUpper()
+                }
+            };
+            builder.Entity<IdentityRole>().HasData(roles);
+// Tạo hai role lưu trong database
+```
+Sử dụng `Authorize` để tạo xác thực
+```csharp
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize] 
+    public class RegionController : ControllerBase
+    {
+    }
+
+```
+## Tạo `AuthController` để xử `Login` và `Register`
+Thêm LoginDTO và RegisterDTO
+```csharp
+public class RegisterDTO
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        public string[] Roles { get; set; }
+    }
+```
+```csharp
+public class LoginDTO
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
+```
+## Cấu trúc tạo token
+```csharp
+var token = new JwtSecurityToken(
+configuration["Jwt:Issuer"],
+configuration["Jwt:Audience"],
+claims,
+expires: DateTime.Now.AddMinutes(15),
+signingCredentials: credentials
+```
+## Thêm Authorize và trong Swagger
+Cấu hình chi tiết trong file `Progam.cs`
+Và thêm vào trong Controller
+```csharp
+[Authorize(Roles = "Writer, Reader")]
+// Có thể thêm nhiều role trong đây
 ```
 
 
