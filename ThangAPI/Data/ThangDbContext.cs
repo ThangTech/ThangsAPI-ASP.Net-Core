@@ -12,6 +12,7 @@ namespace ThangAPI.Data
         public DbSet<Difficulty> Difficulties { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Walkcs> Walkcs { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) // override + OnModelCreating => Seed data
         {

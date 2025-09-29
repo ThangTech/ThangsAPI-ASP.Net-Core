@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThangAPI.Data;
 
@@ -11,9 +12,11 @@ using ThangAPI.Data;
 namespace ThangAPI.Migrations
 {
     [DbContext(typeof(ThangDbContext))]
-    partial class ThangDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250929051630_Add Image")]
+    partial class AddImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
