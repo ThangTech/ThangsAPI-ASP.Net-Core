@@ -4,13 +4,13 @@ namespace ThangAPI.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {
-        private readonly ILogger<ExceptionHandlerMiddleware> logger;
         private readonly RequestDelegate next;
+        private readonly ILogger<ExceptionHandlerMiddleware> logger;
 
-        public ExceptionHandlerMiddleware(ILogger<ExceptionHandlerMiddleware> logger, RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
         {
-            this.logger = logger;
             this.next = next;
+            this.logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
