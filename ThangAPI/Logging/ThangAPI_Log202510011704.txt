@@ -1,0 +1,19 @@
+2025-10-01 17:04:06.196 +07:00 [INF] User profile is available. Using 'C:\Users\Admin\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 17:04:06.394 +07:00 [INF] Now listening on: https://localhost:7263
+2025-10-01 17:04:06.395 +07:00 [INF] Now listening on: http://localhost:5093
+2025-10-01 17:04:06.440 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 17:04:06.442 +07:00 [INF] Hosting environment: Development
+2025-10-01 17:04:06.443 +07:00 [INF] Content root path: D:\WebAPI + Asp.net\Thangs\ThangAPI
+2025-10-01 17:04:07.458 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/swagger/index.html - null null
+2025-10-01 17:04:07.630 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/swagger/index.html - 200 null text/html;charset=utf-8 175.695ms
+2025-10-01 17:04:07.639 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 17:04:07.653 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/_framework/aspnetcore-browser-refresh.js - 200 16501 application/javascript; charset=utf-8 14.4946ms
+2025-10-01 17:04:07.682 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/_vs/browserLink - null null
+2025-10-01 17:04:07.726 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.5151ms
+2025-10-01 17:04:07.899 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/swagger/v1/swagger.json - null null
+2025-10-01 17:04:07.918 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.5487ms
+2025-10-01 17:04:17.484 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/api/Wallk?pageNumber=1&pageSize=1000 - null null
+2025-10-01 17:04:17.547 +07:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Reader)
+2025-10-01 17:04:17.551 +07:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-01 17:04:17.552 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/api/Wallk?pageNumber=1&pageSize=1000 - 401 0 null 67.8332ms

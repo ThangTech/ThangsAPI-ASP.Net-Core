@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using ThangAPI.CustomActionFilters;
 using ThangAPI.Data;
 using ThangAPI.Models.Domain;
@@ -19,15 +20,17 @@ namespace ThangAPI.Controllers
         //private readonly ThangDbContext thangDbContext; //Depenjency
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<RegionController> logger;
 
-        public RegionController(IRegionRepository regionRepository, IMapper mapper)
+        public RegionController(IRegionRepository regionRepository, IMapper mapper, ILogger<RegionController> logger)
         {
             //this.thangDbContext = thangDbContext;
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        //[Authorize(Roles = "Reader")]
         //public IActionResult GetAll()
         //{
         //    var regions = new List<Region>
@@ -51,6 +54,7 @@ namespace ThangAPI.Controllers
         //}
         public async Task<IActionResult> GetALl()
         {
+            logger.LogInformation("GetAllRegions");
             // lay du lieu tu database - domain models
             var regions = await regionRepository.GetAllAsync();
 
@@ -67,6 +71,7 @@ namespace ThangAPI.Controllers
             //    }
             //    );
             //}
+            logger.LogInformation($"Finish GetAllRgions: {JsonSerializer.Serialize(regions)}");
             // dua du lieu tu domain models toi DTOs bằng mapper
             var regionDTO = mapper.Map<List<RegionDTO>>(regions);
             // tra du lieu bang DTOS

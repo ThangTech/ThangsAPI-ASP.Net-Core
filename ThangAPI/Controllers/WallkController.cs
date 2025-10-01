@@ -41,7 +41,7 @@ namespace ThangAPI.Controllers
         //FilterOn lọc trên cột nào
         //FilterQuery câu truy vấn
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        //[Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery, 
             [FromQuery] string? sortBy,[FromQuery] bool? isAscending,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
@@ -49,8 +49,13 @@ namespace ThangAPI.Controllers
             // chuyen tu domain sang dto
             var walkDomain = await walkRepository.GetAllWalkAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
             // Toán tử ?? nếu phép toán bên trái null hoặc rỗng thì lấy giá trị bên phải
+
+            //Create new exception
+            throw new Exception("This is a new exception");
             
             return Ok(mapper.Map<List<WalkDTO>>(walkDomain)); // Trả về một list
+
+            // Ctrl + K , Ctrl + S. Phím tắt tạo khối code nhanh: try catch,...
 
         }
         [HttpGet]

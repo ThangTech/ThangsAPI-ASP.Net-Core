@@ -1,0 +1,27 @@
+2025-10-01 16:18:02.063 +07:00 [INF] User profile is available. Using 'C:\Users\Admin\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 16:18:02.304 +07:00 [INF] Now listening on: https://localhost:7263
+2025-10-01 16:18:02.305 +07:00 [INF] Now listening on: http://localhost:5093
+2025-10-01 16:18:02.354 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 16:18:02.355 +07:00 [INF] Hosting environment: Development
+2025-10-01 16:18:02.356 +07:00 [INF] Content root path: D:\WebAPI + Asp.net\Thangs\ThangAPI
+2025-10-01 16:18:04.350 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/swagger/index.html - null null
+2025-10-01 16:18:04.533 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/swagger/index.html - 200 null text/html;charset=utf-8 187.8302ms
+2025-10-01 16:18:04.541 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 16:18:04.550 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/_framework/aspnetcore-browser-refresh.js - 200 16501 application/javascript; charset=utf-8 9.3626ms
+2025-10-01 16:18:04.570 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/_vs/browserLink - null null
+2025-10-01 16:18:04.606 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/_vs/browserLink - 200 null text/javascript; charset=UTF-8 36.6683ms
+2025-10-01 16:18:04.731 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/swagger/v1/swagger.json - null null
+2025-10-01 16:18:04.750 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.0677ms
+2025-10-01 16:18:10.201 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7263/api/Region - null null
+2025-10-01 16:18:10.273 +07:00 [INF] Executing endpoint 'ThangAPI.Controllers.RegionController.GetALl (ThangAPI)'
+2025-10-01 16:18:10.292 +07:00 [INF] Route matched with {action = "GetALl", controller = "Region"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetALl() on controller ThangAPI.Controllers.RegionController (ThangAPI).
+2025-10-01 16:18:10.496 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 16:18:10.499 +07:00 [INF] GetAllRegions
+2025-10-01 16:18:11.539 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[Id], [r].[Code], [r].[Name], [r].[RegionImageURL]
+FROM [Regions] AS [r]
+2025-10-01 16:18:11.609 +07:00 [INF] Finish GetAllRgions: [{"Id":"14ceba71-4b51-4777-9b17-46602cf66153","Code":"BOP","Name":"Bay Of Plenty","RegionImageURL":null},{"Id":"6884f7d7-ad1f-4101-8df3-7a6fa7387d81","Code":"NTL","Name":"Northland","RegionImageURL":null},{"Id":"f077a22e-4248-4bf6-b564-c7cf4e250263","Code":"STL","Name":"Southland","RegionImageURL":null},{"Id":"cfa06ed2-bf65-4b65-93ed-c9d286ddb0de","Code":"WGN","Name":"Wellington","RegionImageURL":"https://images.pexels.com/photos/4350631/pexels-photo-4350631.jpeg?auto=compress\u0026cs=tinysrgb\u0026w=1260\u0026h=750\u0026dpr=1"}]
+2025-10-01 16:18:11.629 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ThangAPI.Models.DTO.RegionDTO, ThangAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-01 16:18:11.637 +07:00 [INF] Executed action ThangAPI.Controllers.RegionController.GetALl (ThangAPI) in 1337.7867ms
+2025-10-01 16:18:11.639 +07:00 [INF] Executed endpoint 'ThangAPI.Controllers.RegionController.GetALl (ThangAPI)'
+2025-10-01 16:18:11.646 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7263/api/Region - 200 null application/json; charset=utf-8 1445.2063ms
