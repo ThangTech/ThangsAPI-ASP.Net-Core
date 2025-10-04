@@ -486,8 +486,167 @@ Cấu hình chi tiết trong file `Progam.cs`
 [Authorize(Roles = "Writer, Reader")]
 // Có thể thêm nhiều role trong đây
 ```
+# 5. `Logging` và `Versioning`
+## Add các package để làm việc
+```csharp
+Serilog
+Serilog.AspNetCore
+Serilog.Sinks.Console
 
+//Ghi logging vào text
+Serilog.Sinks.File
+```
+Cấu hình 
+```csharp
+var logger = new LoggerConfiguration()//Logging
+    .WriteTo.Console()
+    .WriteTo.File("Logging/ThangAPI_Log.txt", rollingInterval: RollingInterval.Minute)//Thiết lập thời gian lập log
+    .MinimumLevel.Information()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+```
+Tùy chọn `logging`
+```csharp
+logger.LogInformation($"Finish GetAllRgions: {JsonSerializer.Serialize(regions)}");
+// Tiêm  ILogger<RegionController> logger) vào trong
+```
+## Tạo `ExceptionHandlerWare` để xử lý toàn cục
+Sử dụng `Middleware`
+```csharp
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+```
+Tạo thư mục Middleware và tùy chỉnh
+```csharp
+//TIêm ILogger<ExceptionHandlerMiddleware> logger, RequestDelegate next
+Lưu ý: Hàm phải có tên là InVoke hoăc InvokeAsync, không sẽ phát sinh lỗi
+```
+## `Versioning`
+Add các package làm việc
+```csharp
+//Đối với NET 5
+Microsoft.AspNetCore.Mvc.Versioning 
+Microsoft.AspNetCore.Mvc.Versionning.ApiExplorer
 
+// Đối với NET 8
+Asp.Versioning.Mvc
+Asp.Versioning.Mvc.ApiExplorer
+```
+Tạo Controller
+```csharp
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiController]
+[ApiVersion("1.0")]
+[ApiVersion("2.0")]
+public class CountryController : ControllerBase
+{
+    [MapToApiVersion("1.0")]
+    [HttpGet]
+    public IActionResult GetV1()
+    {
+        var countryDomain = CoutryData.Get();
 
+        //Map domain to DTO
+        var countryDTO = new List<CountryDTOv1>();
 
+        foreach(var country in countryDomain)
+        {
+            countryDTO.Add(new CountryDTOv1
+            {
+                Id = country.Id,
+                Name = country.Name,
+            });
+        }
+        return Ok(countryDTO);
+    }
 
+    [MapToApiVersion("2.0")]
+    [HttpGet]
+    public IActionResult GetV2()
+    {
+        var countryDomain = CoutryData.Get();
+
+        //Map domain to DTO
+        var countryDTO = new List<CountryDTOv2>();
+
+        foreach (var country in countryDomain)
+        {
+            countryDTO.Add(new CountryDTOv2
+            {
+                Id = country.Id,
+                CountryName = country.Name,
+            });
+        }
+        return Ok(countryDTO);
+    }
+```
+Config `Progam.cs`
+```csharp
+builder.Services.AddApiVersioning(option =>
+{
+    option.AssumeDefaultVersionWhenUnspecified = true;
+    option.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+    option.ReportApiVersions = true;
+}).AddApiExplorer(option =>
+{
+    option.GroupNameFormat = "'v'VVV";
+    option.SubstituteApiVersionInUrl = true;
+});
+```
+Sử dụng nó trong UI
+```csharp
+var versionDescriptioProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(option =>
+    {
+    foreach (var description in versionDescriptioProvider.ApiVersionDescriptions)
+    {
+        option.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+            description.GroupName.ToUpperInvariant());
+
+        }
+    });
+}
+```
+Tạo `ConfigureSwaggerOptions`
+```csharp
+public class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
+{
+    private readonly IApiVersionDescriptionProvider apiVersionDescriptionProvider;
+
+    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider apiVersionDescriptionProvider)
+    {
+        this.apiVersionDescriptionProvider = apiVersionDescriptionProvider;
+    }
+    public void Configure(string? name, SwaggerGenOptions options)
+    {
+        Configure(options);
+    }
+
+    public void Configure(SwaggerGenOptions options)
+    {
+        foreach (var item in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerDoc(item.GroupName, CreateVersionInfo(item));
+        }
+    }
+    private OpenApiInfo CreateVersionInfo(ApiVersionDescription description)
+    {
+        var info = new OpenApiInfo
+        {
+            Title = "Your Version API",
+            Version = description.ApiVersion.ToString(),
+
+        };
+        return info;
+    }
+}
+// Tiêm IConfigureNamedOptions
+```
+Thêm  vào trong `Program.cs`
+```csharp
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+```
