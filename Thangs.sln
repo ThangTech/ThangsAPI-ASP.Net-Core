@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36511.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThangAPI", "ThangAPI\ThangAPI.csproj", "{F28E7D74-8728-4A2B-B51D-24AD6A978BD9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThangUI", "ThangUI\ThangUI.csproj", "{260F12E0-CA58-4A3F-BF67-482E04363C78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F28E7D74-8728-4A2B-B51D-24AD6A978BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F28E7D74-8728-4A2B-B51D-24AD6A978BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F28E7D74-8728-4A2B-B51D-24AD6A978BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{260F12E0-CA58-4A3F-BF67-482E04363C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{260F12E0-CA58-4A3F-BF67-482E04363C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{260F12E0-CA58-4A3F-BF67-482E04363C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{260F12E0-CA58-4A3F-BF67-482E04363C78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

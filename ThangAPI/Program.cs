@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var logger = new LoggerConfiguration()//Logging
     .WriteTo.Console()
-    .WriteTo.File("Logging/ThangAPI_Log.txt", rollingInterval: RollingInterval.Minute)//Thiết lập thời gian lập log
+    //.WriteTo.File("Logging/ThangAPI_Log.txt", rollingInterval: RollingInterval.Minute)//Thiết lập thời gian lập log
     .MinimumLevel.Information()
     .CreateLogger();
 
