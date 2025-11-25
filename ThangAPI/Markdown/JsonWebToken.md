@@ -1,7 +1,5 @@
 ﻿# JSON Web Token (JWT) là gì?
 
-![Ảnh minh họa JWT](../../Images/gratisography-augmented-reality-800x525.jpg)
-
 JSON Web Token (JWT) là một chuẩn mở (RFC 7519) định nghĩa một cách nhỏ gọn và khép kín để truyền an toàn thông tin giữa các bên dưới dạng đối tượng JSON.
 
 Thông tin trong JWT có thể được **xác minh** và **đáng tin cậy** vì nó có chứa chữ ký số.
