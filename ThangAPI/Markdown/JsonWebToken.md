@@ -189,7 +189,3 @@ public class DemoAuthorizeActionFilter : IAsyncAuthorizationFilter
 
 ---
 
-> **Lưu ý:**
-> - Để hiển thị ảnh trong markdown trên GitHub, bạn nên đặt ảnh trong thư mục dự án (ví dụ: `Images/`) và sử dụng đường dẫn tương đối như ví dụ ở trên.
-> - Nếu ảnh nằm ngoài dự án (ví dụ: ổ D hoặc thư mục Picture), GitHub sẽ không hiển thị được ảnh đó.
-> - Hãy copy ảnh vào thư mục dự án để đảm bảo hiển thị trên GitHub.
