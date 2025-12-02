@@ -1,7 +1,4 @@
 ﻿# Entity Framework Core
-
-> *Bạn có thể chèn ảnh minh họa ở đây nếu muốn*
-
 ---
 
 ## Giới thiệu
